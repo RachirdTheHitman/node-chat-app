@@ -21,13 +21,14 @@ io.on('connection', (socket) => {
   //   console.log('createEmail', newEmail);
   // });
 
-  socket.emit('welcomeMessage', generateMessage('admin', 'welcome to the chat app'));
+  socket.emit('createMessage', generateMessage('Admin', 'welcome to the chat app'));
 
-  socket.broadcast.emit('newUserJoin', generateMessage('admin', 'new user joined'));
+  socket.broadcast.emit('newUserJoin', generateMessage('Admin', 'new user joined'));
 
-  socket.on('createMessage', (message) => {
+  socket.on('createMessage', (message, callback) => {
     console.log('createMessge', message);
-    io.emit('newMessage', generateMessage(message.from, message.text));
+    io.emit('newMessage', generateMessage(message.from, message.text));  // sending message to every connected browser
+    callback('This is from the server.');
     // socket.broadcast.emit('newMessage', {
     //   from: mesasge.from,
     //   text: mesage.text,
